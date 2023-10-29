@@ -17,6 +17,56 @@ export class App extends Component {
     contacts: dataContacts,
     filter: '',
   };
+  componentDidMount = () => {
+    // method get local storage item
+    // if data missing loading default data
+    // if data.length === 0, local storage is empty
+    // else update state by new data from local storage
+    const KEY = 'contactsList';
+    const data = this.getParsedItemFromLocStor(KEY);
+    if (!data) {
+      Notify.success(`Default contact list successfully loaded.`);
+      return;
+    }
+
+    this.setState({ contacts: data });
+
+    if (data.length === 0) {
+      Notify.failure(`Sorry, your contact list is empty. Please add contacts.`);
+      return;
+    }
+    Notify.success(
+      `Contact list successfully loaded from local storage. Quantity of contacts: ${data.length} `
+    );
+    return;
+  };
+
+  componentDidUpdate = (_, prevState) => {
+    // method update  update local storage, when state changed
+    // if contact list not updated, method interrupt
+    const KEY = 'contactsList';
+    if (prevState.contacts === this.state.contacts) {
+      return;
+    }
+
+    const newData = this.state.contacts;
+    this.setStringifiedDataToLocStor(KEY, newData);
+    return;
+  };
+
+  getParsedItemFromLocStor = key => {
+    //method return parsed data from local storage
+    const checkData = localStorage.getItem(key);
+
+    return checkData ? JSON.parse(checkData) : null;
+  };
+
+  setStringifiedDataToLocStor = (key, data) => {
+    // method update data in local storage
+    const stringifiedData = JSON.stringify(data);
+    localStorage.setItem(key, stringifiedData);
+    return;
+  };
 
   getFilteredData = () => {
     // method return data filtered by this.state.filter
@@ -69,10 +119,10 @@ export class App extends Component {
 
   onFilterInput = e => {
     // method update filter in state
-    console.log('lasdkfj');
     this.setState({
       filter: e.target.value,
     });
+    return;
   };
 
   onSubmitButtonContactAdd = e => {
@@ -90,7 +140,7 @@ export class App extends Component {
     if (checkDoubleContact) {
       // show user dublicate contact
       Notify.failure(
-        `The contact ${refInputNameValue} has already been added before`
+        `The contact ${refInputNameValue} has already been added before.`
       );
       //reset input to ''
       this.resetForm(refInputName, refInputTel);
@@ -110,7 +160,7 @@ export class App extends Component {
     });
 
     // show the contact that has been added
-    Notify.success(`The contact ${refInputNameValue} successfully added`);
+    Notify.success(`The contact ${refInputNameValue} successfully added.`);
     this.resetForm(refInputName, refInputTel);
     return;
   };
@@ -124,7 +174,7 @@ export class App extends Component {
 
     //update state without delete element
     this.setState({ contacts: newArray });
-    Notify.success(`Contact deleted successfully`);
+    Notify.success(`Contact deleted successfully.`);
   };
 
   render() {
@@ -140,7 +190,13 @@ export class App extends Component {
           </ContactAddForm>
         </Section>
         <Section title="Contacts">
-          <Input type="text" name="filter" onFilterInput={this.onFilterInput} />
+          {/* prop value are clearing filter after submit */}
+          <Input
+            value={this.state.filter}
+            type="text"
+            name="filter"
+            onFilterInput={this.onFilterInput}
+          />
           {/* get data form getContactList */}
           {/* if this.state.filter === '' return this.state.contacts */}
           {/* if this.state.filter !== '' return data filtered by this.state.filter */}

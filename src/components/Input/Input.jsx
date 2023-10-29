@@ -1,5 +1,5 @@
 import css from './Input.module.css';
-export const Input = ({ type, name, onFilterInput = null }) => {
+export const Input = ({ type, name, onFilterInput = null, value }) => {
   return (
     <label className={css.label}>
       {name}
@@ -8,6 +8,7 @@ export const Input = ({ type, name, onFilterInput = null }) => {
         type={type}
         name={name}
         onInput={onFilterInput}
+        value={value}
         required
       />
     </label>
