@@ -1,13 +1,13 @@
 import { Component } from 'react';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import {
-  Section,
-  ContactAddForm,
-  Input,
-  Button,
-  ContactsList,
-  ContactsListItem,
-} from 'components';
+// import {
+//   Section,
+//   ContactAddForm,
+//   Input,
+//   Button,
+//   ContactsList,
+//   ContactsListItem,
+// } from 'components';
 import { nanoid } from 'nanoid';
 import { dataContacts } from './data/dataContacts';
 
@@ -127,35 +127,36 @@ export class App extends Component {
   };
 
   render() {
-    return (
-      <>
-        <Section title="Phonebook">
-          <ContactAddForm
-            onSubmitButtonContactAdd={this.onSubmitButtonContactAdd}
-          >
-            <Input type="text" name="name" />
-            <Input type="tel" name="tel" />
-            <Button type="submit" text="Add contact" />
-          </ContactAddForm>
-        </Section>
-        <Section title="Contacts">
-          <Input type="text" name="filter" onFilterInput={this.onFilterInput} />
-          {/* get data form getContactList */}
-          {/* if this.state.filter === '' return this.state.contacts */}
-          {/* if this.state.filter !== '' return data filtered by this.state.filter */}
-          <ContactsList>
-            {this.getContactList(this.state.contacts, this.state.filter).map(
-              item => (
-                <ContactsListItem
-                  data={item}
-                  key={item.id}
-                  onContactDeleteButtonClick={this.onContactDeleteButtonClick}
-                />
-              )
-            )}
-          </ContactsList>
-        </Section>
-      </>
-    );
+    return;
+    // (
+    //   <>
+    //     <Section title="Phonebook">
+    //       <ContactAddForm
+    //         onSubmitButtonContactAdd={this.onSubmitButtonContactAdd}
+    //       >
+    //         <Input type="text" name="name" />
+    //         <Input type="tel" name="tel" />
+    //         <Button type="submit" text="Add contact" />
+    //       </ContactAddForm>
+    //     </Section>
+    //     <Section title="Contacts">
+    //       <Input type="text" name="filter" onFilterInput={this.onFilterInput} />
+    //       {/* get data form getContactList */}
+    //       {/* if this.state.filter === '' return this.state.contacts */}
+    //       {/* if this.state.filter !== '' return data filtered by this.state.filter */}
+    //       <ContactsList>
+    //         {this.getContactList(this.state.contacts, this.state.filter).map(
+    //           item => (
+    //             <ContactsListItem
+    //               data={item}
+    //               key={item.id}
+    //               onContactDeleteButtonClick={this.onContactDeleteButtonClick}
+    //             />
+    //           )
+    //         )}
+    //       </ContactsList>
+    //     </Section>
+    //   </>
+    // );
   }
 }
